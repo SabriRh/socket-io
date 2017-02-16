@@ -1,0 +1,27 @@
+{
+  "name": "demo",
+  "description": "demo",
+  "main": "index.js",
+  "authors": [
+    "SabriRh"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "angular",
+    "socket.io"
+  ],
+  "homepage": "https://github.com/SabriRh/socket-io",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.2",
+    "jquery": "^3.1.1",
+    "angular-socket-io": "^0.7.0",
+    "socket.io-client": "^1.7.2"
+  }
+}
