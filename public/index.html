@@ -1,1 +1,23 @@
+<!doctype html>
+<html ng-app="demo-socket.io">
 
+<head>
+    <script src='/bower_components/angular/angular.min.js'></script>
+    <script src='/bower_components/socket.io-client/dist/socket.io.js'></script>
+    <script src='/app.js'></script>
+</head>
+
+<body ng-controller="demoController">
+    <h1>{{pageHeader}}</h1>
+    <h5>This is an exemple of using socket.io for real time comunication between client and server.
+    Our server is Node.js server using Express.js.
+    The client is a simple Angular Application.
+    </h5>
+    <h5>this App will display a welcome message from the server and the server will trigger a sample function that simply send the current time evry 10sec.</h5>
+    <h5>The page controllers will store them in $scope and display them on the Page Using data-binding, Cool !</h5>
+    <ul>
+        <li ng-repeat="time in timeArray">{{time}}</li>
+    </ul>
+</body>
+
+</html>

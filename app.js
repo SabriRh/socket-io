@@ -15,9 +15,6 @@ var users = require('./routes/users');
 
 //create the app , the server and socket io setup
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -40,7 +37,7 @@ app.set('view engine', 'html');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -48,7 +45,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
@@ -59,7 +56,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
+    app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -70,7 +67,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -79,26 +76,21 @@ app.use(function (err, req, res, next) {
 });
 
 
-io.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
-    });
-});
+
 
 //database
 var URL = 'mongodb://' + config.development.database.host + ':' + config.development.database.port + '/' + config.development.database.db;
-MongoClient.connect(URL, function (err, db) {
+MongoClient.connect(URL, function(err, db) {
     if (err) {
         console.log('there is a connection problem !');
         return;
     }
 
-    var MongoWatch = require ('mongo-trigger');
+    var MongoWatch = require('mongo-trigger');
 
-    var watcher = new MongoWatch ({format: 'pretty'});
-    watcher.watch('users',function (event) {
-        console.log('event triggerd',event);
+    var watcher = new MongoWatch({ format: 'pretty' });
+    watcher.watch('users', function(event) {
+        console.log('event triggerd', event);
     });
 
 
@@ -106,26 +98,26 @@ MongoClient.connect(URL, function (err, db) {
     var collection = db.collection('users');
 
     //insert test document
-    collection.insert({user: 'sabri', age: 25}, function (err, result) {
+    collection.insert({ user: 'sabri', age: 25 }, function(err, result) {
 
 
-        console.log(err,result);
+        console.log(err, result);
 
         //fetch the document and display it !
-        collection.find({user: 'sabri'}).toArray(function (err, docs) {
+        collection.find({ user: 'sabri' }).toArray(function(err, docs) {
 
-                console.log(docs[0]);
-                console.log('all good', docs);
+            console.log(docs[0]);
+            console.log('all good', docs);
 
             //we dont need it anymore
-                collection.remove({user:'sabri'},function (err) {
-                if (!err){
+            collection.remove({ user: 'sabri' }, function(err) {
+                if (!err) {
                     console.log('all deleted !!');
                 }
             });
 
-                db.close()
-            });
+            db.close()
+        });
 
 
     });

@@ -30,6 +30,30 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 /**
+*  socket io instence and event listners
+*/
+
+var io = require('socket.io')(server);
+
+
+// Send current time to all connected clients
+function sendTime() {
+    io.emit('time', { time: new Date().toJSON() });
+}
+
+// Send current time every 10 secondes
+setInterval(sendTime, 10 * 1000);
+
+// Emit welcome message on connection
+io.on('connection', function(socket) {
+    // Use socket to communicate with this particular client only, sending it it's own id
+    socket.emit('welcome', { message: 'Welcome From the server !', id: socket.id });
+
+    socket.on('i am client', console.log);
+});
+
+
+/**
  * Normalize a port into a number, string, or false.
  */
 
